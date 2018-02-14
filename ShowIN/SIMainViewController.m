@@ -55,8 +55,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //self.navigationButton.enabled = NO;
-    //self.clearButton.enabled = NO;
     
     // Setup location services
     if (![CLLocationManager locationServicesEnabled]) {
@@ -97,32 +95,6 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *location = [locations lastObject];
     self.currlocation = location;
-    
-//    if (self.locationMarker == nil) {
-//        self.locationMarker = [[GMSMarker alloc] init];
-//        self.locationMarker.position = location.coordinate;
-//
-//        // Animated walker images derived from an www.angryanimator.com tutorial.
-//        // See: http://www.angryanimator.com/word/2010/11/26/tutorial-2-walk-cycle/
-//
-//        NSArray *frames = @[[UIImage imageNamed:@"step1"],
-//                            [UIImage imageNamed:@"step2"],
-//                            [UIImage imageNamed:@"step3"],
-//                            [UIImage imageNamed:@"step4"],
-//                            [UIImage imageNamed:@"step5"],
-//                            [UIImage imageNamed:@"step6"],
-//                            [UIImage imageNamed:@"step7"],
-//                            [UIImage imageNamed:@"step8"]];
-//
-//        self.locationMarker.icon = [UIImage animatedImageWithImages:frames duration:1];
-//        self.locationMarker.groundAnchor = CGPointMake(0.5f, 0.97f);
-//        self.locationMarker.map = self.mapView;
-//    } else {
-//        [CATransaction begin];
-//        [CATransaction setAnimationDuration:0.04f];
-//        self.locationMarker.position = location.coordinate;
-//        [CATransaction commit];
-//    }
     
     GMSCameraUpdate *move = [GMSCameraUpdate setTarget:location.coordinate zoom:17];
     [self.mapView animateWithCameraUpdate:move];
@@ -174,19 +146,6 @@
     [self.searchBar resignFirstResponder];
     
     GMSMutablePath *path = [GMSMutablePath path];
-    
-    /*
-    NSArray<CLLocation *> *pathCoordinates = [self _defaultPathCoordinates];
-    for (CLLocation *location in pathCoordinates) {
-        [path addLatitude:location.coordinate.latitude longitude:location.coordinate.longitude];
-    }
-    
-    self.polyline = [GMSPolyline polylineWithPath:path];
-    self.polyline.strokeColor = [UIColor blueColor];
-    self.polyline.strokeWidth = 5.f;
-    self.polyline.map = self.mapView;
-
-    NSLog(@"navigation tapped");*/
     
     [self _fetchPathCoordinatesWithCompletion:^(GMSPolyline *polyline){
         if (polyline) {
@@ -259,13 +218,7 @@
                     });
                     return;
                 }
-                
-//                GMSPath *path =[GMSPath pathFromEncodedPath:parsedData[@"routes"][0][@"overview_polyline"][@"points"]];
-                
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    GMSPolyline *singleLine = [GMSPolyline polylineWithPath:path];
-//                    completion(singleLine);
-//                });
+
                 for(int i=0; i<[parsedData[@"routes"][0] count]; i++){
                     GMSPath *path =[GMSPath pathFromEncodedPath:parsedData[@"routes"][0][@"overview_polyline"][@"points"]];
                     dispatch_async(dispatch_get_main_queue(), ^{
