@@ -173,7 +173,6 @@
     self.navDetails.text = self.searchBar.text;
     [self.searchBar resignFirstResponder];
     
-    //画线
     GMSMutablePath *path = [GMSMutablePath path];
     
     /*
